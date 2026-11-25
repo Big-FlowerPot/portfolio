@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>个人作品集 · May</title>
+<meta name="description" content="教学课件、HTML 网页课例与 VR 全景课件效果演示作品集">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@600;700&display=swap">
+<style>
+/* ==========================================================
+   配色规范（如需调整，只改这里的变量）
+   ========================================================== */
+:root{
+  --bg:        #fafbfc;   /* 页面底色：极浅偏蓝灰 */
+  --card:      #ffffff;   /* 卡片底色 */
+  --primary:   #2b547e;   /* 主色：藏青蓝 */
+  --primary-2:#e8f0f8;   /* 悬浮浅蓝 */
+  --line:      #e1e7ee;   /* 分割线 / 边框 */
+  --text:      #333333;   /* 正文 */
+  --text-2:    #666666;   /* 说明文字 */
+  --text-3:    #777777;   /* 提示小字 */
+  --shadow:    rgba(43, 84, 126, 0.12);
+  --radius:    12px;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+html{ -webkit-text-size-adjust:100%; }
+
+body{
+  font-family:"Microsoft YaHei","微软雅黑","PingFang SC","Helvetica Neue",Arial,"SimSun",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.7;
+  font-size:15px;
+}
+
+img{ display:block; max-width:100%; }
+
+/* ==========================================================
+   第 1 层：欢迎页
+   ========================================================== */
+#welcome{
+  position:fixed; inset:0; z-index:100;
+  background:var(--bg);
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  text-align:center; padding:24px;
+  cursor:pointer;
+  transition:opacity .35s ease, transform .35s ease;
+}
+#welcome.hide{ opacity:0; transform:translateY(-18px); pointer-events:none; }
+
+.welcome-logo{
+  width:84px; height:84px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:28px;
+  box-shadow:0 4px 12px rgba(0,0,0,.05);
+}
+.logo-img{
+  width:100%; height:100%; object-fit:cover; border-radius:50%;
+  box-shadow:0 4px 12px rgba(0,0,0,.05);
+}
+/* 艺术标题字体：思源宋体，加载失败回退宋体 */
+.font-art{
+  font-family:"Noto Serif SC","Source Han Serif SC","SimSun",serif;
+  font-weight:700;
+}
+.welcome-name{
+  font-size:30px; letter-spacing:.22em;
+  color:var(--primary); font-weight:600; margin-bottom:16px;
+}
+.welcome-title{
+  font-size:24px; color:var(--primary); letter-spacing:.28em; margin-bottom:18px;
+}
+.welcome-hint{
+  position:absolute; bottom:36px; font-size:13px; color:var(--text-3); letter-spacing:.05em;
+}
+
+/* ==========================================================
+   第 2 层：首页
+   ========================================================== */
+#home{ display:none; }
+#home.show{
+  display:block;
+  max-width:1240px; margin:28px auto;
+  background:var(--card);
+  border-radius:20px;
+  box-shadow:0 16px 48px rgba(43,84,126,.08), 0 1px 2px rgba(43,84,126,.04);
+  overflow:hidden;
+}
+
+.container{ max-width:1200px; margin:0 auto; padding:0 24px; }
+
+/* ---------- Header ---------- */
+header.site-header{
+  text-align:center; padding:48px 0 32px;
+  border-bottom:1px solid var(--line);
+}
+.header-logo{
+  width:52px; height:52px; border-radius:50%;
+  display:inline-flex; align-items:center; justify-content:center;
+  margin-bottom:18px;
+  box-shadow:0 4px 12px rgba(0,0,0,.05);
+}
+header.site-header h1{
+  font-size:34px; font-weight:600; color:var(--primary); letter-spacing:.12em;
+  margin-bottom:14px;
+}
+header.site-header .slogan{ font-size:16px; color:var(--text-2); margin-bottom:20px; }
+
+.notice{
+  display:inline-block; background:#f8f9fa; border:none;
+  border-radius:8px; padding:12px 22px; font-size:14px; color:#666666;
+  line-height:1.6; max-width:760px;
+}
+
+/* ---------- 自我介绍 ---------- */
+.about{ padding:60px 0; text-align:center; }
+.about .section-head{ text-align:center; }
+/* ---------- 区块标题（统一节奏） ---------- */
+.section-head{ margin-bottom:24px; }
+.section-head .eyebrow{
+  display:block; font-size:11px; letter-spacing:.32em; text-transform:uppercase;
+  color:#9aa8b8; margin-bottom:10px;
+}
+.section-title{
+  font-size:20px; color:var(--primary); font-weight:600; margin:0;
+}
+.works-lead{
+  margin-top:12px; font-size:15px; color:var(--text-2); letter-spacing:.06em;
+}
+
+/* ---------- 向下提示箭头 ---------- */
+.scroll-hint{
+  display:flex; justify-content:center; margin-top:18px;
+  color:#a8b6c8;
+  animation:hintFloat 2.4s ease-in-out infinite;
+}
+@keyframes hintFloat{
+  0%,100%{ transform:translateY(0); opacity:.75; }
+  50%{ transform:translateY(7px); opacity:1; }
+}
+.about p{
+  font-size:15px; color:var(--text); max-width:720px;
+  margin-left:auto; margin-right:auto;
+  line-height:2; letter-spacing:.5px; margin-bottom:15px;
+}
+.about p + p{ margin-top:0; }
+.about .hl{ color:var(--text); font-weight:600; }
+.about .lead-line{ color:var(--text); font-weight:600; letter-spacing:.8px; }
+.tag-row{ margin-top:26px; display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
+.tag{
+  background:#fff; border:1px solid #e6ebf1; color:var(--text-2);
+  border-radius:999px; padding:7px 16px; font-size:13px;
+  transition:color .2s ease, border-color .2s ease, background .2s ease;
+}
+.tag:hover{ color:var(--primary); border-color:var(--primary); background:var(--primary-2); }
+
+/* ---------- 作品区 ---------- */
+.works{ border-top:1px solid var(--line); padding:60px 0 0; }
+.works .section-head{ text-align:center; margin-bottom:28px; }
+
+/* ---------- Tab 分类 ---------- */
+.tabs{
+  display:flex; flex-wrap:wrap; gap:10px; justify-content:center;
+  margin-bottom:32px;
+}
+.tab{
+  background:#f3f5f8; border:1px solid transparent; color:#667085;
+  border-radius:999px; padding:9px 22px; font-size:14px; cursor:pointer;
+  transition:background .2s ease, color .2s ease, border-color .2s ease;
+  font-family:inherit;
+}
+.tab:hover{ background:#e9edf3; color:var(--primary); }
+.tab.active{ background:var(--primary); color:#fff; border-color:var(--primary); }
+
+/* ---------- 作品卡片网格 ---------- */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(270px, 1fr));
+  gap:26px;
+  padding-bottom:60px;
+}
+.card{
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+  overflow:hidden; cursor:pointer;
+  transition:transform .25s ease, box-shadow .25s ease;
+}
+.card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 10px 24px var(--shadow);
+}
+.card-cover{
+  height:170px; background:var(--primary-2);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--text-3); font-size:13px; text-align:center; padding:0 16px;
+  position:relative;
+}
+.card-cover img{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+}
+.card-cover img{ width:100%; height:100%; object-fit:cover; }
+.card-body{ padding:18px 18px 20px; }
+.card-title{ font-size:16px; color:var(--text); font-weight:600; margin-bottom:8px; }
+.card-meta{ font-size:13px; color:var(--text-2); margin-bottom:8px; }
+.card-highlight{ font-size:13px; color:var(--text-3); }
+
+/* ---------- 联系信息 ---------- */
+.contact{
+  border-top:1px solid var(--line); padding:64px 24px; text-align:center;
+}
+.poem{ margin-bottom:26px; }
+.poem p{
+  font-size:17px; color:var(--text); line-height:2.3; margin:0;
+}
+.poem p:first-child, .poem p:nth-child(2){ color:var(--primary); }
+.contact-mail{ font-size:14px; color:var(--text-2); }
+.contact a{ color:var(--primary); text-decoration:none; }
+
+/* ---------- Footer ---------- */
+footer.site-footer{
+  text-align:center; padding:28px 24px 36px;
+  font-size:13px; color:var(--text-3);
+}
+
+/* ---------- 进场动效：淡入上浮（只触发一次） ---------- */
+.reveal{ opacity:0; transform:translateY(12px); transition:opacity .4s ease, transform .4s ease; }
+.reveal.in{ opacity:1; transform:translateY(0); }
+
+/* ---------- 视频弹窗 ---------- */
+.modal-mask{
+  position:fixed; inset:0; z-index:200;
+  background:rgba(0,0,0,.82);
+  display:none; align-items:center; justify-content:center; padding:20px;
+}
+.modal-mask.open{ display:flex; }
+.modal{
+  background:#fff; border-radius:12px; max-width:920px; width:100%;
+  max-height:90vh; overflow-y:auto; padding:24px;
+  animation:modalIn .25s ease;
+}
+@keyframes modalIn{
+  from{ opacity:0; transform:scale(.97); }
+  to{ opacity:1; transform:scale(1); }
+}
+.modal-close{
+  float:right; background:none; border:none; cursor:pointer;
+  font-size:22px; color:var(--text-2); line-height:1; padding:4px 8px;
+}
+.modal-info{ margin:8px 0 18px; }
+.modal-info h3{ font-size:18px; color:var(--primary); margin-bottom:10px; }
+.modal-info p{ font-size:15px; color:var(--text); margin-bottom:6px; }
+.modal-info .meta{ font-size:13px; color:var(--text-2); }
+.modal-info .copyright{ font-size:13px; color:var(--text-3); margin-top:10px; }
+.modal video{ width:100%; border-radius:10px; display:block; background:#000; }
+.modal-shot{ width:100%; border-radius:10px; display:block; }
+.modal-video-placeholder{
+  width:100%; aspect-ratio:16/9; border-radius:10px; background:var(--primary-2);
+  display:flex; align-items:center; justify-content:center; color:var(--text-3); font-size:13px;
+}
+
+/* ==========================================================
+   响应式：<768px 单列、标签换行、收窄边距
+   ========================================================== */
+@media (max-width:768px){
+  #home{ margin:0; border-radius:0; box-shadow:none; }
+  .container{ padding:0 16px; }
+  header.site-header{ padding:36px 0 24px; }
+  header.site-header h1{ font-size:26px; }
+  .grid{ grid-template-columns:1fr; gap:20px; }
+  .tabs{ gap:10px; }
+  .tab{ padding:8px 16px; font-size:13px; }
+  .modal{ padding:16px; }
+  .notice{ font-size:13px; padding:10px 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     第 1 层：欢迎页
+     ============================================================ -->
+<div id="welcome">
+  <div class="welcome-logo"><img class="logo-img" src="cover/logo.png" alt="May Logo"></div>
+  <div class="welcome-name">May</div>
+  <div class="welcome-title font-art">个人作品集</div>
+  <div class="welcome-hint">欢迎点击任意处探索</div>
+</div>
+
+<!-- ============================================================
+     第 2 层：首页
+     ============================================================ -->
+<div id="home">
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-logo"><img class="logo-img" src="cover/logo.png" alt="May Logo"></div>
+    <h1 class="font-art">个人作品集</h1>
+    <span class="notice">温馨提示：全部内容为效果演示录屏，课件原件版权归授课教师所有</span>
+  </header>
+
+  <!-- 自我介绍 -->
+  <section class="about container reveal">
+    <div class="section-head">
+      <span class="eyebrow">About</span>
+      <h2 class="section-title">关于我的教学实践</h2>
+    </div>
+    <p>四年一线经验，以 <strong class="hl">AI 赋能教学</strong>，探索多元数字化课堂实践，化抽象为直观。</p>
+    <p class="lead-line">技术为器，育人为本。</p>
+    <p>作品集收录数学、多学科课件及少先队活动课实践。</p>
+    <div class="tag-row">
+      <span class="tag">AI 课堂设计</span>
+      <span class="tag">小学数学</span>
+      <span class="tag">多学科课件</span>
+      <span class="tag">互动网页 · 全景</span>
+    </div>
+  </section>
+
+  <!-- 作品区：分类 + 网格 -->
+  <section class="works">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Works</span>
+        <h2 class="section-title font-art">请欣赏</h2>
+        <p class="works-lead">借动态之形，舒展思索的脉络</p>
+      </div>
+      <div class="scroll-hint" aria-hidden="true">
+        <svg width="22" height="30" viewBox="0 0 22 30" fill="none">
+          <path d="M11 2v24M4 19l7 7 7-7" stroke="#a8b6c8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="tabs" id="tabs">
+        <button class="tab active" data-cat="all">全部作品</button>
+        <button class="tab" data-cat="ppt">课堂课件</button>
+        <button class="tab" data-cat="html">互动网页</button>
+      </div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <!-- 联系信息 -->
+  <section class="contact reveal">
+    <div class="poem">
+      <p class="font-art">以课件为笔，以网页为窗，</p>
+      <p class="font-art">于课堂之中，蓄一束微光。</p>
+      <p>感谢翻阅，</p>
+      <p>盼与同道相逢。</p>
+    </div>
+    <p class="contact-mail">邮箱：<a href="mailto:3162244215@qq.com">3162244215@qq.com</a></p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    © May · 个人作品集　|　本站作品均为课堂效果演示录屏
+  </footer>
+</div>
+
+<!-- 视频弹窗 -->
+<div class="modal-mask" id="modalMask">
+  <div class="modal">
+    <button class="modal-close" id="modalClose" aria-label="关闭">×</button>
+    <div class="modal-info" id="modalInfo"></div>
+    <div id="modalVideo"></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   【作品清单 —— 后续新增作品，只改这一段】
+   每条作品字段说明：
+   title     作品标题
+   cat       分类：ppt=课堂课件 / html=互动网页（VR 全景属此类）
+   subject   学科（如：小学数学）
+   stage     学段（如：五年级）
+   highlight 一句话亮点（卡片上展示）
+   cover     封面图路径，放在 cover/ 文件夹；留空 "" 显示占位块
+   video     录屏视频路径，放在 video/ 文件夹；留空 "" 显示占位块
+   intro     弹窗里的作品介绍（设计亮点等）
+   ============================================================ */
+const WORKS = [
+  {
+    title: "一场剧本杀，一堂班会课",
+    cat: "ppt",
+    subject: "主题班会",
+    stage: "小学",
+    highlight: "把剧本杀机制搬进班会，学生在角色里学会共情。",
+    cover: "cover/ppt-banhui.jpg",
+    video: "video/ppt-banhui.mp4",
+    intro: "以剧本杀结构重做的主题班会。学生领取角色、读取线索、分组推理，在剧情推进中自然进入讨论与反思，把原本说教式的班会变成一次共同经历。"
+  },
+  {
+    title: "重走长征路 · 队旗下的成长课",
+    cat: "ppt",
+    subject: "少先队活动",
+    stage: "小学",
+    highlight: "大量影像与史料，加上一节 HTML「司令员，请下令」。",
+    cover: "cover/ppt-shaoxiandui.jpg",
+    video: "video/ppt-shaoxiandui.mp4",
+    intro: "以“重走长征路”为主线的少先队活动课。课件里嵌入大量视频与实时史料，还原行军情境；其中还自制了 HTML 互动环节「司令员，请下令」，让学生以指令的方式参与决策，沉浸式感受飞夺泸定桥的艰难与决绝。"
+  },
+  {
+    title: "少年英雄 · 传承红色力量",
+    cat: "ppt",
+    subject: "主题宣讲",
+    stage: "小学",
+    highlight: "讲革命年代的少年英雄，也讲今天怎样做时代少年。",
+    cover: "cover/ppt-red.jpg",
+    video: "video/ppt-red.mp4",
+    intro: "主题为“传承红色力量，争做时代少年”的宣讲课件。以革命年代的少年英雄事迹为切口，用故事串起信念与担当，引导学生在共鸣中说出自己想成为的样子。"
+  },
+  {
+    title: "金北街谜案 · 用字母表示数",
+    cat: "ppt",
+    subject: "小学数学 · 苏教版",
+    stage: "五年级上册",
+    highlight: "把剧本杀搬进数学课，学生化身侦探找出“幕后凶手”。",
+    cover: "cover/ppt-zimu.jpg",
+    video: "video/ppt-zimu.mp4",
+    intro: "苏教版五年级上册《用字母表示数》。把剧本杀融入数学，创设“金北街谜案”情境：学生化身小侦探，接收线索、逐个排查、推理演算，在找出“幕后凶手”的过程中自然理解用字母表示数与数量关系。"
+  },
+  {
+    title: "电解原理 · 全互动网页课",
+    cat: "html",
+    subject: "高中化学 · 网页",
+    stage: "高中",
+    highlight: "通电、观察、推演，抽象的电解过程在屏幕上跑起来。",
+    cover: "cover/html-electrolysis.jpg",
+    video: "video/html-electrolysis.mp4",
+    intro: "高中化学《电解原理》全互动网页课件。学生可以接通电源、选择电极与溶液，观察离子迁移与电极反应的变化，把看不见的微观过程变成可操作、可观察的实验。"
+  },
+  {
+    title: "Magic Table · 魔法餐桌",
+    cat: "ppt",
+    subject: "小学英语",
+    stage: "五年级 · delicious food",
+    highlight: "餐桌上没有魔法，最后揭晓：这桌饭菜是母亲做的。",
+    cover: "cover/ppt-magic.jpg",
+    video: "video/ppt-magic.mp4",
+    intro: "围绕五年级上册 delicious food 设计的情境课。整节课以“魔法餐桌”为线索，食物一道道上桌，学生用英语点餐、描述、猜测；结尾反转——桌上并没有魔法，是母亲提前做好的饭菜。语言练习最后落在情感上，课堂也因此有了温度。"
+  },
+  {
+    title: "抛物线的轨迹之美",
+    cat: "ppt",
+    subject: "高中数学",
+    stage: "高中",
+    highlight: "从动点轨迹到标准方程，一步步看清抛物线的来历。",
+    cover: "cover/ppt-parabola.jpg",
+    video: "video/ppt-parabola.mp4",
+    intro: "高中数学《抛物线》课件。以轨迹生成为主线，串起定义、标准方程与图像特征，配合动态图像让学生看见曲线是怎样长出来的。"
+  },
+  {
+    title: "AI 还原诗境 ·《定风波》",
+    cat: "ppt",
+    subject: "语文",
+    stage: "中学",
+    highlight: "用 AI 生成画面还原诗句，带学生走进那场雨。",
+    cover: "cover/ppt-dingfengbo.jpg",
+    video: "video/ppt-dingfengbo.mp4",
+    intro: "《定风波》古诗词课件。用 AI 依据词句生成画面，把“一蓑烟雨”的意境还原到学生眼前，再回到文字里细品苏轼的从容，让抽象的意境先可看、后可读。"
+  },
+  {
+    title: "屈子故里的算理课 · 小数乘小数",
+    cat: "ppt",
+    subject: "小学数学",
+    stage: "五年级",
+    highlight: "借当地屈子文化情境，接上 HTML 动态演示讲清算理。",
+    cover: "cover/ppt-xiaoshu.jpg",
+    video: "video/ppt-xiaoshu.mp4",
+    intro: "基础教育精品课《小数乘小数》。以本地屈子文化为情境导入，把计算放进真实的文化场景里；算理环节配合自制 HTML 动态演示，逐格呈现积的计数单位变化，让“为什么这样算”变得看得见。"
+  },
+  {
+    title: "Healthy · 三个场景里的英语课",
+    cat: "ppt",
+    subject: "小学英语",
+    stage: "五年级 · Healthy",
+    highlight: "学校、家里、医院三处场景切换，用真实画面沉浸式操练。",
+    cover: "cover/ppt-english5.jpg",
+    video: "video/ppt-english5.mp4",
+    intro: "五年级 Healthy 一课。课堂在校园、家庭、医院三类真实场景间切换，学生跟着场景变化操练健康话题的词汇与表达，让语言练习发生在“看得见的地方”。"
+  },
+  {
+    title: "拯救命令 · 我们所认识的环境污染",
+    cat: "ppt",
+    subject: "道德与法治",
+    stage: "小学",
+    highlight: "以儿童视角发布“拯救命令”，切入一个沉重的话题。",
+    cover: "cover/ppt-daofa.jpg",
+    video: "video/ppt-daofa.mp4",
+    intro: "道德与法治课《我们所认识的环境污染》。教师以儿童视角发布“拯救命令”，把污染这个沉重话题变成一次任务：学生调查、取证、提出方案，在行动中理解环境与自己的关系。"
+  },
+  {
+    title: "让历史在课堂上开口",
+    cat: "ppt",
+    subject: "历史",
+    stage: "中学",
+    highlight: "史料与图示并置，帮助学生还原历史现场。",
+    cover: "cover/ppt-history.jpg",
+    video: "video/ppt-history.mp4",
+    intro: "历史课件。以史料为骨架组织内容，配合地图与图示还原现场，引导学生在证据之间形成自己的判断。"
+  },
+  {
+    title: "研学购票小程序 · 用字母表示数",
+    cat: "html",
+    subject: "小学数学 · 北师大版",
+    stage: "五年级上册",
+    highlight: "填人数、选票种、算总价，字母在购票单里出场。",
+    cover: "cover/html-shop.png",
+    video: "",
+    intro: "北师大版五年级上册《用字母表示数》配套的 AI 研学购票小程序。学生在界面里选择票种、输入人数，总价实时变化；当数字被换成字母，学生自然理解“字母可以表示未知的数量”。"
+  },
+  {
+    title: "司令员，请下令 · 飞夺泸定桥",
+    cat: "html",
+    subject: "沉浸式互动",
+    stage: "小学",
+    highlight: "学生按下指令，跟着电报声走上那段行军路。",
+    cover: "cover/html-luding.jpg",
+    video: "video/html-luding.mp4",
+    intro: "为少先队活动课自制的 HTML 互动网页。学生以“司令员”的身份接电报、下指令，画面随选择推进，在决策与等待中体会飞夺泸定桥的艰难，把红色教育从“听故事”变成“走一程”。"
+  },
+  {
+    title: "兰芷推理器 · 看见算理",
+    cat: "html",
+    subject: "小学数学 · 网页",
+    stage: "五年级",
+    highlight: "积的计数单位被逐格点亮，算理看得见。",
+    cover: "cover/html-lanzhi1.png",
+    video: "",
+    intro: "自制的算理推理器网页。把小数乘小数拆成计数单位的逐格变化，学生点一步、看一步，算理不再是口头结论，而是屏幕上发生的过程。"
+  },
+  {
+    title: "兰芷推理器 · 面积模型",
+    cat: "html",
+    subject: "小学数学 · 网页",
+    stage: "五年级",
+    highlight: "一格一格铺开面积模型，乘积从图形里长出来。",
+    cover: "cover/html-lanzhi2.png",
+    video: "",
+    intro: "同一套推理器的模型视角。用面积模型解释小数乘小数的计算过程，学生拖动、缩放，看到乘积如何由图形铺成。"
+  },
+  {
+    title: "抛物线，可以被拖动",
+    cat: "html",
+    subject: "高中数学 · 网页",
+    stage: "高中",
+    highlight: "参数一拖即变，抽象曲线在屏幕上活了起来。",
+    cover: "cover/html-parabola.png",
+    video: "",
+    intro: "自制的 HTML 互动页面。学生拖动参数，抛物线实时改变形状与开口方向，把函数关系变成可操作的直觉。"
+  },
+  {
+    title: "与历史人物对话",
+    cat: "html",
+    subject: "历史 · 智能体",
+    stage: "中学",
+    highlight: "向历史人物提问，答案在对话里慢慢展开。",
+    cover: "cover/html-agent.jpg",
+    video: "video/html-agent.mp4",
+    intro: "基于 AI 智能体的互动课例。学生以对话方式向历史人物提问，追问其处境与选择，在问答之间理解人物与时代的关系。"
+  },
+  {
+    title: "全景英语操练场",
+    cat: "html",
+    subject: "小学英语 · 全景",
+    stage: "五年级",
+    highlight: "在场景里边走边练，语言练习变成一次漫游。",
+    cover: "cover/html-pano.jpg",
+    video: "video/html-pano.mp4",
+    intro: "全景互动课例。学生在可旋转的真实场景中辨认事物、完成听说操练，让语言练习发生在情境里。"
+  }
+
+];
+
+
+/* 分类中文对照（一般不用改） */
+const CAT_LABEL = { ppt: "课堂课件", html: "互动网页" };
+
+const grid = document.getElementById("grid");
+const tabs = document.getElementById("tabs");
+let currentCat = "all";
+
+/* ---------- 渲染作品卡片 ---------- */
+function renderGrid(){
+  const list = WORKS.filter(w => currentCat === "all" || w.cat === currentCat);
+  grid.innerHTML = list.map((w, i) => `
+    <div class="card reveal" data-index="${WORKS.indexOf(w)}">
+      <div class="card-cover">
+        <span class="cover-ph">封面截图待添加</span>
+        ${w.cover ? `<img src="${w.cover}" alt="${w.title}" loading="lazy" onerror="this.remove()">` : ""}
+      </div>
+      <div class="card-body">
+        <div class="card-title">${w.title}</div>
+        <div class="card-meta">${w.subject} · ${w.stage} · ${CAT_LABEL[w.cat]}</div>
+        <div class="card-highlight">${w.highlight}</div>
+      </div>
+    </div>
+  `).join("");
+
+  /* 重新绑定卡片点击与进场动效 */
+  grid.querySelectorAll(".card").forEach(card => {
+    card.addEventListener("click", () => openModal(Number(card.dataset.index)));
+  });
+  observeReveal();
+}
+
+/* ---------- Tab 筛选 ---------- */
+tabs.addEventListener("click", e => {
+  const btn = e.target.closest(".tab");
+  if(!btn) return;
+  tabs.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  btn.classList.add("active");
+  currentCat = btn.dataset.cat;
+  renderGrid();
+});
+
+/* ---------- 弹窗 ---------- */
+const mask = document.getElementById("modalMask");
+const modalInfo = document.getElementById("modalInfo");
+const modalVideo = document.getElementById("modalVideo");
+
+function openModal(index){
+  const w = WORKS[index];
+  const rightNote = w.video ? "本内容为效果演示录屏" : "本内容为作品界面截图";
+  modalInfo.innerHTML = `
+    <h3>${w.title}</h3>
+    <p class="meta">${w.subject} · ${w.stage} · ${CAT_LABEL[w.cat]}</p>
+    <p>${w.intro}</p>
+    <p class="copyright">温馨提示：${rightNote}，课件原件版权归授课教师所有。</p>
+  `;
+  if(w.video){
+    modalVideo.innerHTML = `<video controls autoplay playsinline></video>`;
+    const v = modalVideo.querySelector("video");
+    v.addEventListener("error", () => {
+      modalVideo.innerHTML = `<div class="modal-video-placeholder">演示视频待添加（放入 video/ 文件夹）</div>`;
+    });
+    v.src = w.video;
+  }else if(w.cover){
+    modalVideo.innerHTML = `<img class="modal-shot" src="${w.cover}" alt="${w.title}" loading="lazy">`;
+  }else{
+    modalVideo.innerHTML = `<div class="modal-video-placeholder">演示截图待添加</div>`;
+  }
+  mask.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal(){
+  const video = modalVideo.querySelector("video");
+  if(video){ video.pause(); video.removeAttribute("src"); video.load(); }
+  mask.classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+document.getElementById("modalClose").addEventListener("click", closeModal);
+mask.addEventListener("click", e => { if(e.target === mask) closeModal(); });
+document.addEventListener("keydown", e => { if(e.key === "Escape") closeModal(); });
+
+/* ---------- 进场动效：进入视口淡入上浮，只触发一次 ---------- */
+let observer;
+function observeReveal(){
+  if(observer) observer.disconnect();
+  observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add("in");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll(".reveal:not(.in)").forEach(el => observer.observe(el));
+}
+
+/* ---------- 欢迎页点击进入首页 ---------- */
+const welcome = document.getElementById("welcome");
+const home = document.getElementById("home");
+welcome.addEventListener("click", () => {
+  welcome.classList.add("hide");
+  home.classList.add("show");
+  setTimeout(() => welcome.remove(), 400);
+  renderGrid();
+  observeReveal();
+});
+</script>
+
+<!-- ============================================================
+     【本地更新指南】
+     1. 目录结构：
+        portfolio/
+        ├ index.html   本文件
+        ├ cover/       封面截图（jpg/png）
+        └ video/       MP4 录屏（建议 ≤50MB）
+     2. 新增作品：在上方 WORKS 数组里复制一条，改标题、分类、
+        学科、学段、亮点、封面路径、视频路径、介绍即可。
+     3. Logo：已使用 cover/logo.png（欢迎页与 Header 两处）；
+        如需更换，替换该文件即可，文件名保持不变。
+     4. 双击 index.html 即可在本地浏览器预览，确认无误后再
+        把整个 portfolio 文件夹上传到 Vercel 部署。
+     ============================================================ -->
+</body>
+</html>
